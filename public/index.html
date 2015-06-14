@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" ng-app="todo">
+  <head>
+    <meta charset="utf-8">
+    <title>To-do-list</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+  </head>
+
+  <body ng-controller="todoController as todoCtrl">
+    <div class='container'>
+      <div class='jumbotron'>
+          <div class='row'>
+              <h1> My to-do list </h1>
+          </div>
+          <div class='row'>
+            <form class="form-horizontal" id='add-to-list'>
+              <input type="text" placeholder="Add task" ng-model="todoCtrl.newItem">
+              <input type="submit" class="btn" ng-click="todoCtrl.addItem(todoCtrl.newItem);"></input>
+            </form>
+
+            <input type="checkbox" ng-click="taskFilter = undefined"> All
+            <input type="checkbox" ng-click="taskFilter = {completed : false}"> Active
+            <input type="checkbox" ng-click="taskFilter = {completed : true }" id='checkbox'> Complete
+
+            <ul class="list-group" ng-repeat="item in todoCtrl.storedItems | filter: taskFilter">
+              <li class="list-group-item" id='list'>
+                <input type="checkbox" ng-model="item.completed" ng-change="true" ng-hide='editing'> {{item.task}} </span>
+                <a href="#" ng-hide='editing' ng-click="editing = true" id='editstart'>Edit task</a>
+                <input ng-show='editing' ng-model="item.task">
+                <a href="#" ng-show='editing' ng-click="editing = false" id='editend'class="pull-right">Done editing?</a>
+                <button ng-click='todoCtrl.deleteItem($index);' class="pull-right">Delete</button>
+              </li>
+            </ul>
+            <span id='total-tasks'> Total tasks: {{todoCtrl.storedItems.length}} </span>
+          </div>
+        </div>
+      </div>
+    <script src="js/app.js"></script>
+    <script src="js/todoController.js"></script>
+  </body>
+</html>
